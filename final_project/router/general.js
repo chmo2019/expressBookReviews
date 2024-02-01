@@ -12,7 +12,7 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  return res.status(300).json(JSON.stringify(books,null,4));
+  return res.status(300).send(JSON.stringify(books,null,4));
 });
 
 // Get book details based on ISBN
