@@ -44,7 +44,7 @@ regd_users.post("/login", (req,res) => {
     req.session.authorization = {
       accessToken,username
   }
-  return res.status(200).send("User successfully logged in");
+    return res.status(200).send("User successfully logged in");
   } else {
     return res.status(208).json({message: "Invalid Login. Check username and password"});
   }
@@ -52,18 +52,35 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
+  // get isbn, session username, and queried review
   const isbn = req.params.isbn;
   const username = req.session.authorization.username;
   const review = req.query.review;
-  books[isbn].reviews[username] = {"username": username, "review": review};
-  return res.status(300).json({message: "Successfully submitted review"});
+  
+  // check if book exists
+  if (books[isbn]) {
+    // create or update review
+    books[isbn].reviews[username] = {"username": username, "review": review};
+
+    // check if review exists
+    if (books[isbn].reviews[username]) {
+      return res.status(200).json({message: "Successfully updated review"});
+    }
+    // else review was created
+    return res.status(201).json({message: "Successfully created review"});
+  }
+  return res.status(404).json(
+    {message: `Could not find book with isbn ${isbn}: does not exist`});
+  
 });
 
 // delete a book review
 regd_users.delete("/auth/review/:isbn", (req, res) => {
+  // get isbn and session username
   const isbn = req.params.isbn;
   const username = req.session.authorization.username;
+
+  // check if review exists
   if (books[isbn].reviews[username]) {
     delete books[isbn].reviews[username];
     return res.status(200).json({message: "Successfully deleted review"});
