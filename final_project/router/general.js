@@ -83,27 +83,32 @@ public_users.get('/review/:isbn',function (req, res) {
 });
 
 // async-await for testing '/' endpoint
-(async () => {
+async function getAllBooks() {
   let res = await axios.get('http://localhost:5000/')
   console.log(res.data);
-})();
+};
 
 // async-await for testing '/isbn/:isbn' endpoint
-(async () => {
+async function getByISBN() {
   let res = await axios.get('http://localhost:5000/isbn/1')
   console.log(res.data);
-})();
+};
 
 // async-await for testing '/author/:author' endpoint
-(async () => {
+async function getByAuthor() {
   let res = await axios.get('http://localhost:5000/author/Chinua Achebe')
   console.log(res.data);
-})();
+};
 
 // async-await for testing '/title/:title' endpoint
-(async () => {
+async function getByTitle() {
   let res = await axios.get('http://localhost:5000/title/Things Fall Apart')
   console.log(res.data);
-})();
+};
+
+getAllBooks();
+getByISBN();
+getByAuthor();
+getByTitle();
 
 module.exports.general = public_users;
