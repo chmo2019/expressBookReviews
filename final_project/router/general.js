@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
@@ -80,5 +81,29 @@ public_users.get('/review/:isbn',function (req, res) {
   return res.status(404).json(
     {message: `Could not find book with isbn ${isbn}: does not exist`})
 });
+
+// async-await for testing '/' endpoint
+(async () => {
+  let res = await axios.get('http://localhost:5000/')
+  console.log(res.data);
+})();
+
+// async-await for testing '/isbn/:isbn' endpoint
+(async () => {
+  let res = await axios.get('http://localhost:5000/isbn/1')
+  console.log(res.data);
+})();
+
+// async-await for testing '/author/:author' endpoint
+(async () => {
+  let res = await axios.get('http://localhost:5000/author/Chinua Achebe')
+  console.log(res.data);
+})();
+
+// async-await for testing '/title/:title' endpoint
+(async () => {
+  let res = await axios.get('http://localhost:5000/title/Things Fall Apart')
+  console.log(res.data);
+})();
 
 module.exports.general = public_users;
