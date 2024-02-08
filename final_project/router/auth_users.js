@@ -64,10 +64,10 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
     // check if review exists
     if (books[isbn].reviews[username]) {
-      return res.status(200).json({message: "Successfully updated review"});
+      return res.status(200).json({message: "Successfully updated review for book with isbn: " + isbn});
     }
     // else review was created
-    return res.status(201).json({message: "Successfully created review"});
+    return res.status(201).json({message: "Successfully created review for book with isbn: " + isbn});
   }
   return res.status(404).json(
     {message: `Could not find book with isbn ${isbn}: does not exist`});
@@ -83,7 +83,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   // check if review exists
   if (books[isbn].reviews[username]) {
     delete books[isbn].reviews[username];
-    return res.status(200).json({message: "Successfully deleted review"});
+    return res.status(200).json({message: "Successfully deleted review for book with isbn: " + isbn});
   }
   return res.status(404).json(
     {message: `Could not delete book with isbn ${isbn}: does not exist`});
